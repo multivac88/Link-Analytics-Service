@@ -23,9 +23,9 @@ makes:
 
 2. Create a short link and copy its code in frontend copy ...r/[YOUR_CODE]
 
-3. Run test from project root dir: 
-chmod +x ./load-test/run_matrix.sh
-CODE=YOUR_CODE ./load-test/run_matrix.sh
+3. Run test from project root dir:
+- chmod +x ./load-test/run_matrix.sh
+- CODE=YOUR_CODE ./load-test/run_matrix.sh
 - results will be saved to load-test/out/...
 
 4. create python environment for generating plots:
