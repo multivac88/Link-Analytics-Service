@@ -1,0 +1,49 @@
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: link_analytics_postgres
+    environment:
+      POSTGRES_USER: app
+      POSTGRES_PASSWORD: app
+      POSTGRES_DB: link_analytics
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./backend/migrations:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U app -d link_analytics"]
+      interval: 2s
+      timeout: 2s
+      retries: 20
+
+
+  backend:
+    build:
+      context: ./backend
+    container_name: link_analytics_backend
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      PORT: "8080"
+      APP_BASE_URL: "http://localhost:8080"
+      DATABASE_URL: "postgres://app:app@postgres:5432/link_analytics?sslmode=disable"
+    ports:
+      - "8080:8080"
+
+  frontend:
+    build:
+      context: ./frontend
+    container_name: link_analytics_frontend
+    depends_on:
+      - backend
+    environment:
+      NEXT_PUBLIC_API_BASE_URL: "http://localhost:8080"
+      NEXT_PUBLIC_USER_ID: "00000000-0000-0000-0000-000000000001"
+    ports:
+      - "3000:3000"
+
+volumes:
+  pgdata:
