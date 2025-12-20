@@ -275,6 +275,13 @@ scripted interaction.
 **Prompt:**
 > how do i assert on status 302 explicitly
 
+
+**Prompt:**
+> should I register a HEAD handler for /r/{code}
+
+**Prompt:**
+> adding r.Head("/r/{code}", HandleRedirect) fixed the load test — why?
+
 ---
 
 ## 16. Load Test Output Bottlenecks & File I/O Issues
